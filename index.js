@@ -1,27 +1,15 @@
-// load puppeteer
-const puppeteer = require('puppeteer')
+const $ = require('cheerio');
+const rp = require('request-promise');
 
-// this wrapper executes this code inmediately
-void(async () => {
-    // wrapper to catch errors
-    try {
-        const browser =  await puppeteer.launch()
+const url = 'https://en.wikipedia.org/wiki/List_of_Presidents_of_the_United_States';
 
-        // create a new page in the browser
-        const page = await browser.newPage()
 
-        // navigate to the webpage
-        await page.goto('https://scrapethissite.com/pages/forms/')
-
-        // take and save a screenshot
-        await page.screenshot({ path: './data/screenshot/example.png' })
-
-        // generate and save pdf of the page
-        await page.pdf({ path: './data/pdf/example.pdf' })
-
-        // close browser
-        await browser.close()
-    } catch (error) {
-        console.log(error)
-    }
-})()
+rp(url)
+    .then(function(html){
+        //success!
+        console.log(html);
+    })
+    .catch(function(err){
+        //handle error
+        console.log(err)
+    });

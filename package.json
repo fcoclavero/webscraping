@@ -1,0 +1,23 @@
+{
+  "name": "webscraping",
+  "version": "1.0.0",
+  "description": "Webscraping for NL information.",
+  "main": "index.js",
+  "scripts": {
+    "start": "index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fcoclavero/webscraping.git"
+  },
+  "author": "Francisco Clavero",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fcoclavero/webscraping/issues"
+  },
+  "homepage": "https://github.com/fcoclavero/webscraping#readme",
+  "dependencies": {
+    "puppeteer": "^1.11.0"
+  }
+}

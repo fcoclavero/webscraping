@@ -61,4 +61,10 @@ typings/
 .next
 
 # data files
-data/*
+data/json/*.json
+data/pdf/*.pdf
+data/screenshot/*.png
+
+
+# do not ignore .gitkeep
+!.gitkeep

@@ -59,12 +59,3 @@ typings/
 
 # next.js build output
 .next
-
-# data files
-data/json/*.json
-data/pdf/*.pdf
-data/screenshot/*.png
-
-
-# do not ignore .gitkeep
-!.gitkeep

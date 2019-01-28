@@ -1,12 +1,24 @@
 const $ = require('cheerio')
+const fs = require("fs")
 const rp = require('request-promise')
+const program = require('commander')
 const MongoClient = require('mongodb').MongoClient
 
 
-const date = new Date()
-const url = 'https://www.latercera.com'
-const slug = 'latercera'
+program
+    .version('0.0.1')
+    .option('-s, --slug [slug]', 'Short identifier for the page to be scraped [slug]. Available sites in sites.json')
+    .parse(process.argv);
 
+
+const site = JSON.parse(fs.readFileSync("sites.json")).find(site => {
+    return site.slug === program.slug
+})
+
+const url = site.url
+const slug = site.slug
+const date = new Date()
+ 
 
 rp(url)
     .then(function (html) {

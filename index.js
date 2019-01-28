@@ -17,6 +17,7 @@ const site = JSON.parse(fs.readFileSync("sites.json")).find(site => {
 
 const url = site.url
 const slug = site.slug
+const lang = site.lang
 const date = new Date()
  
 
@@ -40,7 +41,8 @@ rp(url)
                         'text': $(link).text(),
                         'link': $(link).attr('href'),
                         'date': date,
-                        'source': slug
+                        'source': slug,
+                        'lang': lang
                     })
                 })
                 

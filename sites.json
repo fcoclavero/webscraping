@@ -1,10 +1,27 @@
 [
     {
         "slug": "latercera",
-        "url": "https://www.latercera.com"
+        "url": "https://www.latercera.com",
+        "lang": "es"
     },
     {
         "slug": "emol",
-        "url": "https://www.emol.com"
+        "url": "https://www.emol.com",
+        "lang": "es"
+    },
+    {
+        "slug": "elmostrador",
+        "url": "https://www.elmostrador.cl",
+        "lang": "es"
+    },
+    {
+        "slug": "ft",
+        "url": "https://www.ft.com",
+        "lang": "en"
+    },
+    {
+        "slug": "yahoo",
+        "url": "https://finance.yahoo.com",
+        "lang": "en"
     }
 ]

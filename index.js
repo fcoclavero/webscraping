@@ -19,7 +19,7 @@ const url = site.url
 const slug = site.slug
 const lang = site.lang
 const date = new Date()
- 
+
 
 rp(url)
     .then(function (html) {
@@ -28,13 +28,20 @@ rp(url)
 
         // connect to the db
         MongoClient.connect("mongodb://localhost:27017", (err, client) => {
-        
+
             if (err) throw err
 
             var db = client.db('webscraping');
 
             db.collection('links', function (err, collection) {
-        
+
+                var countBefore = 0
+
+                db.collection('links').countDocuments(function (err, count) {
+                    if (err) throw err
+                    countBefore = count
+                })
+
                 // get link text and href and save to db
                 $(links).each(function(i, link){
                     collection.insertOne({
@@ -45,10 +52,10 @@ rp(url)
                         'lang': lang
                     })
                 })
-                
+
                 db.collection('links').countDocuments(function (err, count) {
-                    if (err) throw err;
-                    console.log('Total Rows: ' + count);
+                    if (err) throw err
+                    console.log('Total documents inserted: ' + (count - countBefore))
                 })
             })
 

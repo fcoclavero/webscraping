@@ -8,7 +8,7 @@ const slug = 'latercera'
 const date = new Date()
 
 
-MongoClient.connect("mongodb://localhost:27017", (err, client) => {
+MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 
     if (err) throw err
 
@@ -32,7 +32,16 @@ MongoClient.connect("mongodb://localhost:27017", (err, client) => {
 
             if (err) throw err
 
-            console.log(result.result.n + " document(s) deleted");
+            console.log(result.result.n + ' document(s) deleted');
+
+            // TODO: separate function for logging or logging mixin
+
+            var countBefore = 0
+
+            collection.countDocuments((err, count) => { // logging
+                if (err) throw err
+                countBefore = count
+            })
 
             // delete duplicate urls. I've set url as unique key, so this shouldn't happen
 
@@ -42,6 +51,12 @@ MongoClient.connect("mongodb://localhost:27017", (err, client) => {
                     { _id: { $gt: doc._id },
                     url: doc.url
                 })
+            })
+
+            collection.countDocuments((err, count) => { // logging
+                if (err) throw err
+                console.log(Math.abs(count - countBefore) + ' duplicate(s) deleted')
+                countBefore = count
             })
 
             // get missing article text. The code is placed here so it runs after the delete
@@ -59,11 +74,16 @@ MongoClient.connect("mongodb://localhost:27017", (err, client) => {
 
                 async.each(links, (link, callback) => {
                         // Call an asynchronous function, often a save() to DB
-                        console.log(link.url)
                         rp(link.url)
                             .then((html) => {
+                                console.log(link.url)
                                 article = $('.col-article-main', html)
-                                console.log($(article).text())
+                                collection.updateOne(
+                                    { _id: link._id},
+                                    {$set:
+                                        { article: $(article).text() }
+                                    }
+                                )
                                 // Async call is done, alert via callback
                                 callback();
                             })
@@ -79,9 +99,12 @@ MongoClient.connect("mongodb://localhost:27017", (err, client) => {
                             console.log('A file failed to process')
                             throw err
                         } else {
-                            console.log('All files have been processed successfully')
+                            collection.countDocuments((err, count) => { // logging
+                                if (err) throw err
+                                console.log((count - countBefore) + ' article(s) added')
+                            })
                         }
-                        client.close()
+                        // client.close()
                     }
                 )
 

@@ -11,7 +11,7 @@ program
     .parse(process.argv);
 
 
-const site = JSON.parse(fs.readFileSync("sites.json")).find(site => {
+const site = JSON.parse(fs.readFileSync('sites.json')).find(site => {
     return site.slug === program.slug
 })
 
@@ -27,7 +27,7 @@ rp(url)
         links = $('a', html) // cheerio get all hyperlinks
 
         // connect to the db
-        MongoClient.connect("mongodb://localhost:27017", (err, client) => {
+        MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 
             if (err) throw err
 

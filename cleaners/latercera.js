@@ -5,6 +5,10 @@ const MongoClient = require('mongodb').MongoClient
 
 
 const slug = 'latercera'
+<<<<<<< HEAD
+=======
+const date = new Date()
+>>>>>>> 0fd8925d9fb98637bf514530737d23b7c86c7e66
 
 
 MongoClient.connect('mongodb://localhost:27017', (err, client) => {
@@ -21,7 +25,11 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
             $and: [
                 { slug: slug },
                 { $or: [
+<<<<<<< HEAD
                     { url: { $not: /noticia/} },
+=======
+                    { url: { not: /noticia/} },
+>>>>>>> 0fd8925d9fb98637bf514530737d23b7c86c7e66
                     { url: null }
                 ]}
             ]
@@ -101,9 +109,15 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
                             collection.countDocuments((err, count) => { // logging
                                 if (err) throw err
                                 console.log((count - countBefore) + ' article(s) added')
+<<<<<<< HEAD
                                 client.close()
                             })
                         }
+=======
+                            })
+                        }
+                        // client.close()
+>>>>>>> 0fd8925d9fb98637bf514530737d23b7c86c7e66
                     }
                 )
 

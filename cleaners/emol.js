@@ -4,7 +4,7 @@ const async = require('async')
 const MongoClient = require('mongodb').MongoClient
 
 
-const slug = 'latercera'
+const slug = 'emol'
 
 
 MongoClient.connect('mongodb://localhost:27017', (err, client) => {
@@ -21,7 +21,7 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
             $and: [
                 { slug: slug },
                 { $or: [
-                    { url: { $not: /noticia/} },
+                    { url: { $not: /noticias/} },
                     { url: null }
                 ]}
             ]
@@ -76,7 +76,7 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
                         rp(link.url)
                             .then((html) => {
                                 console.log(link.url)
-                                article = $('.col-article-main', html)
+                                article = $('.cont-new-detalle-noti', html)
                                 collection.updateOne(
                                     { _id: link._id},
                                     {$set:

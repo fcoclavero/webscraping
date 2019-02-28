@@ -22,7 +22,7 @@ const date = new Date()
 
 
 rp(url)
-    .then(function (html) {
+    .then((html) => {
 
         links = $('a', html) // cheerio get all hyperlinks
 
@@ -33,27 +33,28 @@ rp(url)
 
             var db = client.db('webscraping');
 
-            db.collection('links', function (err, collection) {
+            db.collection('links', (err, collection) => {
 
                 var countBefore = 0
 
-                db.collection('links').countDocuments(function (err, count) {
+                collection.countDocuments((err, count) => {
                     if (err) throw err
                     countBefore = count
                 })
 
                 // get link text and href and save to db
-                $(links).each(function(i, link){
+
+                $(links).each((i, link) => {
                     collection.insertOne({
                         'text': $(link).text(),
-                        'link': $(link).attr('href'),
+                        'url': $(link).attr('href'),
                         'date': date,
-                        'source': slug,
+                        'slug': slug,
                         'lang': lang
                     })
                 })
 
-                db.collection('links').countDocuments(function (err, count) {
+                collection.countDocuments((err, count) => {
                     if (err) throw err
                     console.log('Total documents inserted: ' + (count - countBefore))
                 })
@@ -62,6 +63,6 @@ rp(url)
             client.close()
         })
     })
-    .catch(function (err) {
+    .catch((err) => {
         throw err
     })

@@ -15,13 +15,14 @@ const site = JSON.parse(fs.readFileSync('sites.json')).find(site => {
     return site.slug === program.slug
 })
 
+
 const url = site.url
 const slug = site.slug
 const lang = site.lang
 const date = new Date()
 
 
-rp(url)
+rp(url) // request homepage
     .then((html) => {
 
         links = $('a', html) // cheerio get all hyperlinks

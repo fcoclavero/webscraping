@@ -8,7 +8,7 @@ const MongoClient = require('mongodb').MongoClient
 const moment = require('moment')
 const slug = 'cmf'
 const lang = 'es'
-const html = fs.readFileSync('../static/cmf.html', 'utf8')
+const html = fs.readFileSync('static/cmf.html', 'utf8')
 
 
 const regex = new RegExp('\/documentos\/hes\/hes_[0-9]*.pdf', 'g');

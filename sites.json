@@ -2,12 +2,16 @@
     {
         "slug": "latercera",
         "url": "https://www.latercera.com",
-        "lang": "es"
+        "lang": "es",
+        "articleUrlRegex": "noticia",
+        "articleHtmlClass": ".col-article-main"
     },
     {
         "slug": "emol",
         "url": "https://www.emol.com",
-        "lang": "es"
+        "lang": "es",
+        "articleUrlRegex": "noticias",
+        "articleHtmlClass": ".cont-new-detalle-noti"
     },
     {
         "slug": "elmostrador",

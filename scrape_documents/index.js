@@ -1,11 +1,25 @@
 const $ = require('cheerio')
-const rp = require('request-promise')
 const async = require('async')
+const fs = require("fs")
+const rp = require('request-promise')
+const program = require('commander')
 const MongoClient = require('mongodb').MongoClient
 
 
-const slug = 'latercera'
-const date = new Date()
+program
+    .version('0.0.1')
+    .option('-s, --slug [slug]', 'Short identifier for the page to be scraped [slug]. Available sites in sites.json')
+    .parse(process.argv);
+
+
+const site = JSON.parse(fs.readFileSync('sites.json')).find(site => {
+    return site.slug === program.slug
+})
+
+
+const slug = site.slug
+const articleUrlRegex = new RegExp(site.articleUrlRegex);
+const articleHtmlClass = site.articleHtmlClass
 
 
 MongoClient.connect('mongodb://localhost:27017', (err, client) => {
@@ -22,7 +36,7 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
             $and: [
                 { slug: slug },
                 { $or: [
-                    { url: { $not: /noticia/} },
+                    { url: { $not: articleUrlRegex} },
                     { url: null }
                 ]}
             ]
@@ -33,8 +47,6 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
             if (err) throw err
 
             console.log(result.result.n + ' document(s) deleted');
-
-            // TODO: separate function for logging or logging mixin
 
             var countBefore = 0
 
@@ -73,15 +85,17 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
                 if (err) throw err
 
                 async.each(links, (link, callback) => {
+                        // Update url if it does not begin with the site url
+                        var url = RegExp(site.url).test(link.url) ? link.url : site.url + link.url
                         // Call an asynchronous function, often a save() to DB
-                        rp(link.url)
+                        rp(url)
                             .then((html) => {
                                 console.log(link.url)
-                                article = $('.col-article-main', html)
+                                article = $(articleHtmlClass, html)
                                 collection.updateOne(
                                     { _id: link._id},
                                     {$set:
-                                        { article: $(article).text() }
+                                        { article: $(article).text(), url: url }
                                     }
                                 )
                                 // Async call is done, alert via callback

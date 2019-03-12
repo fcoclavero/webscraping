@@ -1,6 +1,7 @@
 const fs = require('fs')
 const mongoose = require('mongoose')
 const pLimit = require('p-limit');
+const program = require('commander')
 const rp = require('request-promise')
 const tmp = require('temporary-directory')
 
@@ -9,9 +10,15 @@ const exec = util.promisify(require('child_process').exec)
 const writeFile = util.promisify(fs.writeFile)
 
 
-// Maximum concurrency of 20 promises at once, too straining otherwise
+program
+    .version('0.0.1')
+    .option('-p, --parallel-tasks [parallelTasks]', 'Maximum number of parallel scraping tasks. 5 seems like a sweet spot on a PC.')
+    .parse(process.argv);
 
-const limit = pLimit(20);
+
+// Maximum concurrency of simultaneous promises at once, too straining otherwise
+
+const limit = pLimit(program.parallelTasks);
 
 
 async function pdf2img(path) {

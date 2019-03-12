@@ -1,3 +1,6 @@
+// This code uses a static html file downloaded from the CMF site. This was done to bypass the
+// Captcha restriction. To add new links, the page will have to be downloaded manually.
+
 const $ = require('cheerio')
 const fs = require('fs')
 const MongoClient = require('mongodb').MongoClient
@@ -5,15 +8,17 @@ const MongoClient = require('mongodb').MongoClient
 const moment = require('moment')
 const slug = 'cmf'
 const lang = 'es'
-const html = fs.readFileSync('./static/cmf.html', 'utf8')
+const html = fs.readFileSync('../static/cmf.html', 'utf8')
 
 
 const regex = new RegExp('\/documentos\/hes\/hes_[0-9]*.pdf', 'g');
+
 
 const links = $('a', html).filter(function (index, element) { // solo hechos escenciales
     // this === element
     return $(this).attr('href').match(regex)
 })
+
 
 // connect to the db
 MongoClient.connect('mongodb://localhost:27017', (err, client) => {

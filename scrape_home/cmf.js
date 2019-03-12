@@ -1,3 +1,5 @@
+// TODO: This code has to be adapted to bypass the captcha required for the document index page
+
 const $ = require('cheerio')
 const fs = require("fs")
 const rp = require('request-promise')

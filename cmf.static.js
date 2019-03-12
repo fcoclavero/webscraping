@@ -1,8 +1,8 @@
 const $ = require('cheerio')
-const fs = require("fs")
+const fs = require('fs')
 const MongoClient = require('mongodb').MongoClient
 
-
+const moment = require('moment')
 const slug = 'cmf'
 const lang = 'es'
 const html = fs.readFileSync('./static/cmf.html', 'utf8')
@@ -35,9 +35,9 @@ MongoClient.connect('mongodb://localhost:27017', (err, client) => {
 
         $(links).each((i, link) => {
             collection.insertOne({
-                'doc_id': $(link).text().trim(),
-                'url': $(link).attr('href'),
-                'date': $(link).parent().prev().text(),
+                'documentId': $(link).text().trim(),
+                'url': 'http://www.cmfchile.cl' + $(link).attr('href'),
+                'date': moment($(link).parent().prev().text(), 'DD/MM/YYYY HH:mm:ss').valueOf(),
                 'slug': slug,
                 'lang': lang,
                 'entity': $(links[0]).parent().next().text(),

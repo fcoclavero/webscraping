@@ -2,33 +2,31 @@
   "name": "webscraping",
   "version": "1.0.0",
   "description": "Webscraping for NL information.",
-  "main": "index.js",
+  "main": "src",
   "scripts": {
-    "scrape": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "scrape-all": "node src",
+    "scrape-homepage": "node src/scrape_homepage",
+    "scrape-articles": "node src/scrape_articles"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fcoclavero/webscraping.git"
   },
-  "author": "Francisco Clavero",
+  "author": {
+    "name": "Francisco Clavero",
+    "email": "fcoclavero32@gmail.com"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/fcoclavero/webscraping/issues"
   },
   "homepage": "https://github.com/fcoclavero/webscraping#readme",
   "dependencies": {
-    "async": "^2.6.1",
     "cheerio": "^1.0.0-rc.2",
-    "commander": "^2.19.0",
-    "moment": "^2.24.0",
-    "mongodb": "^3.1.13",
-    "mongoose": "^5.4.18",
-    "p-limit": "^2.2.0",
-    "puppeteer": "^1.11.0",
+    "commander": "^4.0.1",
+    "mongoose": "^5.7.13",
     "request": "^2.88.0",
-    "request-promise": "^4.2.2",
-    "temporary-directory": "^1.0.2"
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
     "eslint": "^5.13.0"

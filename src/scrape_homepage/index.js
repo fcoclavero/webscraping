@@ -7,6 +7,7 @@ const mongoose = require('../mongoose')
 
 
 module.exports = function(slug) {
+  var articleCount = 0
   var db = mongoose.connection
   db.on('error', console.error.bind(console, 'connection error:'))
   db.on('open', async function () {
@@ -20,8 +21,11 @@ module.exports = function(slug) {
           'lang': site.lang
         }
       }).get())
+      .then(articles => { Article.countDocuments().then(count => articleCount = count); return articles})
       .then(articles => Article.insertMany(articles, { ordered: false }))
-      .then(insertedArticles => console.log(`${slug} - total documents inserted: ${insertedArticles.length}`))
+      .catch(_ => console.log('Duplicates encountered and ignored.'))
+      .then(_ => Article.countDocuments())
+      .then(count => console.log(`${slug} - total documents inserted: ${count - articleCount}`))
       .then(_ => mongoose.disconnect())
   })
 }

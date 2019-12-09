@@ -18,7 +18,7 @@ module.exports = async function(slug) {
     }).get())
     .then(articles => { Article.countDocuments().then(count => articleCount = count); return articles})
     .then(articles => Article.insertMany(articles, { ordered: false }))
-    .catch(_ => console.log('Duplicates encountered and ignored.'))
+    .catch(_ => console.log(`${slug} - duplicates encountered and ignored`))
     .then(_ => Article.countDocuments())
     .then(count => console.log(`${slug} - total documents inserted: ${count - articleCount}`))
 }

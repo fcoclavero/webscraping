@@ -9,7 +9,6 @@ config.sites = {
     url: 'https://www.latercera.com',
     lang: 'es',
     articleUrlRegex: 'noticia',
-    articleHtmlClass: '.content-conteniendo-contenido',
     extractContent: function (html) {
       reg = /var singlePost = (\{.*\};)/
       return JSON.parse(
@@ -19,13 +18,15 @@ config.sites = {
       )
     }
   },
-//   emol: {
-//     slug: 'emol',
-//     url: 'https://www.emol.com',
-//     lang: 'es',
-//     articleUrlRegex: 'noticias',
-//     articleHtmlClass: '.cont-new-detalle-noti'
-//   },
+  emol: {
+    slug: 'emol',
+    url: 'https://www.emol.com',
+    lang: 'es',
+    articleUrlRegex: 'noticias',
+    extractContent: function (html) {
+      return $('.EmolText', html).text()
+    }
+  },
 //   elmostrador: {
 //     slug: 'elmostrador',
 //     url: 'https://www.elmostrador.cl',

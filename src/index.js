@@ -14,7 +14,6 @@ db.on('error', console.error.bind(console, 'connection error:'))
 db.on('open', function () {
   Promise.all(Object.keys(config.sites).map((key, index) => {
     var slug = config.sites[key].slug
-    console.log(`Scraping ${slug}`)
     return scrape_homepage(slug).then(_ => scrape_articles(slug))
   })).then(_ => mongoose.disconnect())
 })

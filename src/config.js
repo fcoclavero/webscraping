@@ -27,11 +27,15 @@ config.sites = {
       return $('.EmolText', html).text()
     }
   },
-//   elmostrador: {
-//     slug: 'elmostrador',
-//     url: 'https://www.elmostrador.cl',
-//     lang: 'es'
-//   },
+  elmostrador: {
+    slug: 'elmostrador',
+    url: 'https://www.elmostrador.cl',
+    lang: 'es',
+    articleUrlRegex: 'noticias',
+    extractContent: function (html) {
+      return $('.txt-post', html).text()
+    }
+  },
 //   ft: {
 //     slug: 'ft',
 //     url: 'https://www.ft.com',

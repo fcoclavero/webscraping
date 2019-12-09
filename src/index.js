@@ -1,7 +1,8 @@
 const program = require('commander')
-const Article = require('./models/article.model')
 const config = require('./config')
 const mongoose = require('./mongoose')
+const scrape_articles = require('./scrape_articles/scrape')
+const scrape_homepage = require('./scrape_homepage/scrape')
 
 
 program
@@ -9,21 +10,11 @@ program
 
 
 var db = mongoose.connection
-
 db.on('error', console.error.bind(console, 'connection error:'))
-
 db.on('open', function () {
-  console.log(`MongoDB connected at: ${config.connectionUrl}`)
-  article = Article({ text: 'test' })
-  article.save()
-    .then(function (article) {
-      console.log(`saved article: ${article}`)
-      return Article.find()
-    })
-    .then(function (articles) {
-      console.log(`found articles: ${articles}`);
-    })
-    .then(function () {
-      mongoose.disconnect()
-    })
+  Promise.all(Object.keys(config.sites).map((key, index) => {
+    var slug = config.sites[key].slug
+    console.log(`Scraping ${slug}`)
+    return scrape_homepage(slug).then(_ => scrape_articles(slug))
+  })).then(_ => mongoose.disconnect())
 })

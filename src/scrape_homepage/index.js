@@ -15,7 +15,7 @@ module.exports = function(slug) {
     return rp(site.url)
       .then(html => $('a', html).map(function (i, link) {
         return {
-          'text': $(link).text(),
+          'title': $(link).text(),
           'url': $(link).attr('href'),
           'slug': site.slug,
           'lang': site.lang

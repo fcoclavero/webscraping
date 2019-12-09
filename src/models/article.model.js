@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 
 var ArticleSchema = new mongoose.Schema({
-  text: String,
+  title: String,
   url: { type: String, unique: true },
   slug: String,
   lang: String,
-  article: String
+  content: Object
 }, {
   timestamps: true
 })
